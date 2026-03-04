@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:homecontrol/features/Rooms/Providers/roomController.dart';
+import 'package:homecontrol/Controller/roomController.dart';
 
-final activeDeviceCountProvider = Provider<int>((ref) {
+final activeDeviceCountProvider =
+    Provider<int>((ref) {
   final rooms = ref.watch(roomProvider);
 
   return rooms
@@ -9,4 +10,3 @@ final activeDeviceCountProvider = Provider<int>((ref) {
       .where((device) => device.isActive)
       .length;
 });
-

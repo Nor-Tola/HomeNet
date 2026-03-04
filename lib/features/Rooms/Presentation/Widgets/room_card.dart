@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homecontrol/features/Home/Model/room_model.dart';
+import 'package:homecontrol/Model/room_model.dart';
 
 Widget roomCard(RoomModel room) {
   int activeCount = room.allDevice.where((device) => device.isActive).length;
@@ -20,7 +20,6 @@ Widget roomCard(RoomModel room) {
         children: [
           Row(
             children: [
-              // Icon with colored rounded square
               Container(
                 height: 48,
                 width: 48,
@@ -31,8 +30,6 @@ Widget roomCard(RoomModel room) {
                 child: Icon(room.icon, color: Colors.white, size: 26),
               ),
               SizedBox(width: 12),
-
-              // Title + subtitle
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,8 +52,6 @@ Widget roomCard(RoomModel room) {
                   ],
                 ),
               ),
-
-              // "● OK" badge — only shown when active
               if (activeCount > 0)
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -91,8 +86,6 @@ Widget roomCard(RoomModel room) {
           ),
 
           SizedBox(height: 14),
-
-          // Device chips
           Wrap(
             spacing: 8,
             runSpacing: 8,

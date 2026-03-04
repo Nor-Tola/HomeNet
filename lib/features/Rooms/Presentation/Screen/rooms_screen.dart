@@ -1,49 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:homecontrol/features/Home/Model/room_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:homecontrol/Controller/roomController.dart';
 import 'package:homecontrol/features/Rooms/Presentation/Widgets/room_card.dart';
 
-class RoomsScreen extends StatelessWidget {
+class RoomsScreen extends ConsumerWidget {
   const RoomsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rooms = ref.watch(roomProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Rooms',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-            Text('Main Residence · ${roomList.length} rooms', style: TextStyle(fontSize: 18)),
+            Text(
+              'Main Residence · ${rooms.length} rooms',
+              style: const TextStyle(fontSize: 18),
+            ),
           ],
         ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final double cardWidth = constraints.maxWidth;
-          const double cardHeight = 160; // adjust to match your card's content height
+          const double cardHeight = 160;
           final double aspectRatio = cardWidth / cardHeight;
+
+          if (rooms.isEmpty) {
+            return const Center(
+              child: Text('No Rooms Found'),
+            );
+          }
 
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
               childAspectRatio: aspectRatio,
             ),
-            itemCount: roomList.isEmpty ? 1 : roomList.length,
+            itemCount: rooms.length,
             itemBuilder: (context, index) {
-              if (roomList.isEmpty) {
-                return const Center(child: Text('No Devices Found'));
-              }
-              final data = roomList[index];
-              return roomCard(
-                RoomModel(
-                  name: data.name,
-                  icon: data.icon,
-                  allDevice: data.allDevice,
-                ),
-              );
+              final data = rooms[index];
+
+              return roomCard(data); // ✅ no need to recreate model
             },
           );
         },

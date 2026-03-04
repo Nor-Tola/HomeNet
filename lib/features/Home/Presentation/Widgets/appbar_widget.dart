@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:homecontrol/features/Home/Providers/TimeController.dart';
-import 'package:homecontrol/features/Home/Model/room_model.dart';
-import 'package:homecontrol/features/Rooms/Providers/roomController.dart';
+import 'package:homecontrol/Controller/TimeController.dart';
+import 'package:homecontrol/Model/room_model.dart';
+import 'package:homecontrol/Controller/roomController.dart';
 
 PreferredSizeWidget appBarWidget(WidgetRef ref) {
   final timeAsync = ref.watch(timeProvider);
-final rooms = ref.watch(roomProvider);
-    final allDevices = rooms
-        .where((room) => room.isOn)
-        .expand((room) => room.allDevice)
-        .toList();
+  final rooms = ref.watch(roomProvider);
+  final allDevices = rooms.expand((room) => room.allDevice).toList();
   return AppBar(
     automaticallyImplyLeading: false,
     title: Column(
@@ -59,7 +56,7 @@ final rooms = ref.watch(roomProvider);
                 subtitle: Text(
                   'Phone Penh, ${roomList.length} rooms, ${allDevices.length} devices',
                 ),
-              ),  
+              ),
             ),
           ],
         ),
